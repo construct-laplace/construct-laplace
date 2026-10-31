@@ -1,0 +1,14 @@
+code,category,rule,articles
+R1,Duplicate record,A second Crossref record or second DOI of an article already counted.,93
+R2,Outside the publication window,Published after 2026-09-01.,51
+R3,Not a research article,"Editorials, errata, book reviews, comments and replies, issue information, summaries of unpublished work.",5481
+R4,Management Science outside the covered departments,"From 2003 on, only papers accepted by the strategy, entrepreneurship and innovation (and its predecessor) or organizations departments are covered.",4048
+H1,No separately stated hypothesis tested in the paper (screen before extraction),"The paper states no hypothesis set off from the running text and tested on its own data: theory papers, formal models, essays, qualitative and descriptive studies, and empirical papers whose predictions stay in running text.",8838
+H2,No counted statement after statement-level review,"After extraction, no statement of the paper meets the set-off rule: predictions only in running text, propositions the paper does not test, corollaries.",569
+H3,"Hypotheses only in a table, or not tested statement by statement","Hypotheses given only as a list inside a table, or propositions assessed only by exploratory comparison, case narrative or qualitative material rather than a quantitative test of each statement.",44
+H4,Meta-analysis,"Hypotheses tested on effect sizes of other studies, not on the paper's own data.",5
+T1,Not strategy or organization research (topic screen before extraction),"The core question, unit and outcome are not about organizations as strategic actors or their structure and environment.",1135
+T2,Individual or small-group behavior,"Question, mechanism and outcome stay at the level of individuals or teams inside organizations (organizational behavior).",727
+T3,Individual decision makers without an organization-level outcome,"Individual-level rule: individual decision makers, investors or consumers studied without a firm-level outcome.",69
+T4,Another field,"Finance, accounting, operations, marketing, information systems, economics or public policy questions that are not about organization strategy or structure.",2349
+IN,Included,,4784
