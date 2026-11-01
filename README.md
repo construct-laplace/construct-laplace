@@ -2,7 +2,7 @@
 
 Construct Laplace records the tested content of empirical strategy and organization research at the level of the formal hypothesis. For every hypothesis stated and tested in the papers in scope of six journals (*Strategic Management Journal*, *Academy of Management Journal*, *Administrative Science Quarterly*, *Organization Science*, *Strategy Science* and three departments of *Management Science*), it records the constructs, their definitions and measures, the predicted direction and the result the authors report. Paper constructs are filed under a shared concept dictionary, so findings reported under different names can be compared.
 
-The web explorer is online at https://construct-laplace.org (free sign-in with Google or email). This repository holds the same data as the website, and the query API and MCP server that let AI agents use it. The proposal and the technical appendix describe the design and each procedure.
+The web explorer is online at https://construct-laplace.org. Reviewers can enter without an account by choosing "I'm a journal reviewer, enter anonymously" on the sign-in page. Inside, the Use with AI page gives them a free API key for the website's API and MCP server. Others sign in free with Google or email. This repository holds the same data as the website, and the query API and MCP server that let AI agents use it. The proposal and the technical appendix describe the design and each procedure.
 
 ## What this repository contains
 
