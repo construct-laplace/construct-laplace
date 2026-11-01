@@ -1,4 +1,4 @@
-"""MCP server for Construct Laplace (read-only). Lets an AI assistant find constructs, papers and measures and cite the evidence.
+"""MCP server for Construct Laplace (read-only). Lets an AI agent find constructs, papers and measures and cite the original papers.
 
 Local, over stdio:   python server_mcp.py            (LAPLACE_DB=path/to/construct_laplace.sqlite)
 Remote, over HTTP:   served at /mcp by server_http.py (streamable HTTP)
@@ -10,10 +10,10 @@ from mcp.server.fastmcp import FastMCP
 from laplace_query import Laplace
 
 INSTRUCTIONS = (
-    'Construct Laplace is a database of formal, tested hypotheses from empirical strategy and organization papers '
-    '(SMJ, AMJ, ASQ, Organization Science, Strategy Science and the strategy-related departments of Management Science, published through September 2026). '
-    'Constructs are mapped to a dictionary of entries (entryId) arranged in a type/aspect tree. Typical flow: search or resolve_construct to get ids, '
-    'then construct_relationships, relationship_evidence, construct_measures or find_measures. Every answer carries paper ids and hypothesis statements: '
+    'Construct Laplace links tested hypotheses and their underlying constructs across empirical strategy and organization papers in six leading journals '
+    '(SMJ, AMJ, ASQ, Organization Science, Strategy Science and the strategy- and organization-related departments of Management Science, published through September 2026). '
+    'The constructs of each paper are linked to a construct dictionary (entryId), in which constructs are related as synonyms, subordinate concepts (type_of) or attributes (aspect_of). Typical flow: search or resolve_construct to get ids, '
+    'then construct_relationships, relationship_evidence, construct_measures or find_measures. Answers carry paper ids and hypothesis statements; '
     'cite them. Theory, method and measurement-approach labels were assigned by language models and checked by a second model.')
 mcp = FastMCP('construct-laplace', instructions=INSTRUCTIONS, stateless_http=True, json_response=True)
 A = Laplace()
@@ -23,33 +23,33 @@ A = Laplace()
 def search(query: str, limit: int = 20, journal: str = '', year_from: int = 0, year_to: int = 0, topic: str = '', design: str = '',
            theory: str = '', method: str = '', measurement: str = '', data_type: str = '') -> dict:
     """Full-text search over papers (title, authors, abstract, constructs, hypothesis statements, measures, theory/method/design labels),
-    plus the best-matching dictionary entries. Every word must appear; an exact phrase ranks first. Optional filters as in find_papers."""
+    plus the closest constructs in the dictionary. Papers must contain each search word; an exact phrase ranks first. Optional filters as in find_papers."""
     return A.search(query, limit, journal=journal or None, year_from=year_from or None, year_to=year_to or None, topic=topic or None, design=design or None,
                     theory=theory or None, method=method or None, measurement=measurement or None, data_type=data_type or None)
 
 
 @mcp.tool()
 def resolve_construct(name: str, limit: int = 5) -> list:
-    """Find dictionary entries for a construct name as a researcher might write it (aliases and paper wordings included). Returns entryIds."""
+    """Find constructs in the dictionary for a name as a researcher might write it (synonyms and paper wordings included). Returns entryIds."""
     return A.resolve(name, limit)
 
 
 @mcp.tool()
 def get_entry(entry_id: str) -> dict:
-    """Definition, level, sign convention, tree path, narrower entries, aliases and coverage of a dictionary entry."""
+    """Definition, level of analysis, direction convention, broader and narrower constructs, synonyms and paper counts of a construct in the dictionary."""
     return A.entry(entry_id) or {'error': 'entry not found'}
 
 
 @mcp.tool()
 def construct_relationships(entry_id: str, role: str = 'both', scope: str = 'children', min_papers: int = 1, limit: int = 40) -> dict:
-    """Predictors and/or outcomes of a construct, counted in papers and split by sign. role: both | predictors | outcomes.
+    """Predictors and/or outcomes of a construct, counted in papers and split by predicted direction. role: both | predictors | outcomes.
     scope: children (the entry and its narrower entries) | exact."""
     return A.relationships(entry_id, role, scope, min_papers, limit)
 
 
 @mcp.tool()
 def relationship_evidence(source_entry_id: str, target_entry_id: str, scope: str = 'exact', limit: int = 60) -> dict:
-    """Every hypothesis linking source to target: paper, statement, stated direction, verdict and the verdict quote, plus the papers on each side when supported findings run in both directions."""
+    """The hypotheses that test the relationship from source to target: paper, statement, predicted direction, the authors' assessment of empirical support (verdict) and a quotation of the result, plus the papers on each side when supported findings run in both directions."""
     return A.evidence(source_entry_id, target_entry_id, scope, limit)
 
 
@@ -76,7 +76,7 @@ def list_measurement_approaches() -> list:
 @mcp.tool()
 def get_paper(paper_id: str) -> dict:
     """One paper in full: metadata, abstract, authors, topics, theories, studies (sample, setting, design, methods), data sources,
-    constructs with their dictionary entries, hypotheses with verdicts, and measures with their measurement approach."""
+    constructs with their links to the construct dictionary, hypotheses with the authors' assessment of empirical support, and measures with their measurement approach."""
     return A.paper_full(paper_id) or {'error': 'paper not found'}
 
 
@@ -91,7 +91,7 @@ def find_papers(query: str = '', entry_id: str = '', topic: str = '', journal: s
 
 @mcp.tool()
 def list_facets(journal: str = '', year_from: int = 0, year_to: int = 0, topic: str = '') -> dict:
-    """All filter values (journals, years, topics, research designs, theories, analysis methods, measurement approaches, data types) with paper counts."""
+    """Filter values (journals, years, topics, research designs, theories, analysis methods, measurement approaches, data types) with paper counts."""
     return A.facets(journal=journal or None, year_from=year_from or None, year_to=year_to or None, topic=topic or None)
 
 
@@ -103,7 +103,7 @@ def list_topics() -> list:
 
 @mcp.tool()
 def find_authors(name: str, limit: int = 20) -> list:
-    """Authors by name (printed forms included), with in-scope paper counts."""
+    """Authors by name (printed forms included), with counts of included papers."""
     return A.search_authors(name, limit)
 
 
