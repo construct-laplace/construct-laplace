@@ -10,7 +10,7 @@ from mcp.server.fastmcp import FastMCP
 from laplace_query import Laplace
 
 INSTRUCTIONS = (
-    'Construct Laplace links tested hypotheses and their underlying constructs across empirical strategy and organization papers in six leading journals '
+    'Construct Laplace links constructs, hypothesized relationships, and associated findings across empirical strategy and organization papers in six leading management journals '
     '(SMJ, AMJ, ASQ, Organization Science, Strategy Science and the strategy- and organization-related departments of Management Science, published through September 2026). '
     'The constructs of each paper are linked to a construct dictionary (entryId), in which constructs are related as synonyms, subordinate concepts (type_of) or attributes (aspect_of). Typical flow: search or resolve_construct to get ids, '
     'then construct_relationships, relationship_evidence, construct_measures or find_measures. Answers carry paper ids and hypothesis statements; '

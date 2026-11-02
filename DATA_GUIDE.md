@@ -41,4 +41,4 @@ Ids: papers `p123`, dictionary entries `c01.e001`, constructs and hypotheses are
 ## Topics and authors
 
 **topics** and **paper_topics.** The 19 topics, with up to three topics per paper.
-**authors** and **paper_authors.** The authors of the papers, each listed once with their papers (names only; no institutions).
+**authors** and **paper_authors.** The authors of the papers (4,724 for the included papers), each listed once with their papers (names only; no institutions).
